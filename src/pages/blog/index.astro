@@ -12,14 +12,15 @@ const categories = ['Tümü', ...Array.from(new Set(publishedPosts.map((p) => p.
 
 <BaseLayout
   title="Blog & Notlar — Mehmet Enes Çetin"
-  description="Yapay zeka, bilgisayarlı görü, otomasyon araçları ve modern yazılım mimarisi üzerine notlar."
+  description="Yapay zeka, bilgisayarlı görü, otomasyon araçları ve modern yazılım mimarisi üzerine teknik yazılar."
 >
   <div class="min-h-screen bg-bg text-ink">
-    <header class="border-b border-line bg-bg-elevated/40 backdrop-blur sticky top-0 z-20">
+    <!-- Header -->
+    <header class="border-b border-line bg-bg-elevated/70 backdrop-blur-md sticky top-0 z-40">
       <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
         <a
           href="/"
-          class="text-sm text-ink-muted hover:text-copper flex items-center gap-2 transition-colors"
+          class="text-sm text-ink-muted hover:text-copper flex items-center gap-2 transition-colors font-medium"
         >
           ← Ana Sayfaya Dön
         </a>
@@ -31,11 +32,14 @@ const categories = ['Tümü', ...Array.from(new Set(publishedPosts.map((p) => p.
 
     <main class="max-w-5xl mx-auto px-6 py-16">
       <div class="max-w-2xl mb-12">
+        <div class="text-xs font-mono uppercase tracking-widest text-copper mb-2">
+          Deneyimler &amp; Teknik Notlar
+        </div>
         <h1 class="font-serif text-4xl lg:text-5xl font-medium tracking-tight text-ink">
           Düşünceler &amp; Notlar
         </h1>
-        <p class="mt-3 text-ink-muted text-base leading-relaxed">
-          Otomasyon araçları, gerçek zamanlı görüntü işleme sistemleri ve yazılım geliştirme üzerine deneyimlerimi aktardığım blog.
+        <p class="mt-3 text-ink-muted text-base leading-relaxed font-light">
+          Otomasyon araçları, gerçek zamanlı görüntü işleme sistemleri ve modern yazılım geliştirme süreçleri üzerine paylaşımlar.
         </p>
       </div>
 
@@ -47,7 +51,7 @@ const categories = ['Tümü', ...Array.from(new Set(publishedPosts.map((p) => p.
               type="text"
               id="search-input"
               placeholder="Başlık, özet veya etiket ara..."
-              class="w-full px-4 py-2.5 bg-bg-elevated border border-line rounded text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:border-copper transition-colors"
+              class="w-full px-4 py-2.5 bg-bg-elevated/80 border border-line rounded-lg text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:border-copper transition-colors shadow-inner"
             />
           </div>
 
@@ -57,10 +61,10 @@ const categories = ['Tümü', ...Array.from(new Set(publishedPosts.map((p) => p.
                 <button
                   type="button"
                   data-category={cat}
-                  class={`cat-btn px-3 py-1.5 text-xs rounded border transition-colors ${
+                  class={`cat-btn px-3.5 py-1.5 text-xs rounded-lg border transition-all ${
                     idx === 0
-                      ? 'bg-copper text-bg border-copper font-medium active-cat'
-                      : 'border-line text-ink-muted hover:border-copper/60 hover:text-ink'
+                      ? 'bg-copper text-bg border-copper font-medium shadow-[0_2px_10px_rgba(198,132,79,0.2)] active-cat'
+                      : 'border-line text-ink-muted hover:border-copper/60 hover:text-ink bg-bg-elevated/30'
                   }`}
                 >
                   {cat}
@@ -80,10 +84,10 @@ const categories = ['Tümü', ...Array.from(new Set(publishedPosts.map((p) => p.
                 data-description={post.data.description.toLowerCase()}
                 data-category={post.data.category}
                 data-tags={post.data.tags.join(' ').toLowerCase()}
-                class="post-card p-6 rounded border border-line bg-bg-elevated/40 hover:border-copper hover:bg-bg-elevated/80 transition-all flex flex-col justify-between group"
+                class="post-card p-7 rounded-xl border border-line bg-bg-elevated/30 hover:border-copper/80 hover:bg-bg-elevated/60 transition-all flex flex-col justify-between group relative overflow-hidden"
               >
                 <div>
-                  <div class="flex items-center gap-3 text-xs text-ink-faint mb-3">
+                  <div class="flex items-center gap-3 text-xs text-ink-faint mb-3 font-mono">
                     <span class="text-copper font-medium">{post.data.category}</span>
                     <span>•</span>
                     <span>
@@ -97,14 +101,14 @@ const categories = ['Tümü', ...Array.from(new Set(publishedPosts.map((p) => p.
                   <h2 class="font-serif text-2xl font-medium text-ink group-hover:text-copper transition-colors leading-snug">
                     {post.data.title}
                   </h2>
-                  <p class="mt-3 text-sm text-ink-muted line-clamp-3 leading-relaxed">
+                  <p class="mt-3 text-sm text-ink-muted line-clamp-3 leading-relaxed font-light">
                     {post.data.description}
                   </p>
                 </div>
 
-                <div class="mt-6 pt-4 border-t border-line/60 flex flex-wrap gap-1.5">
+                <div class="mt-6 pt-4 border-t border-line/50 flex flex-wrap gap-1.5">
                   {post.data.tags.map((tag) => (
-                    <span class="text-xs px-2 py-0.5 rounded bg-line/40 text-ink-faint group-hover:text-ink-muted transition-colors">
+                    <span class="text-xs px-2.5 py-0.5 rounded bg-line/40 text-ink-muted group-hover:text-ink transition-colors">
                       #{tag}
                     </span>
                   ))}
@@ -114,7 +118,10 @@ const categories = ['Tümü', ...Array.from(new Set(publishedPosts.map((p) => p.
           }
         </div>
 
-        <div id="no-results" class="hidden py-16 text-center border border-dashed border-line rounded-lg text-ink-faint">
+        <div
+          id="no-results"
+          class="hidden py-16 text-center border border-dashed border-line rounded-xl text-ink-faint"
+        >
           Aradığınız kriterlere uygun yazı bulunamadı.
         </div>
       </div>
@@ -171,9 +178,11 @@ const categories = ['Tümü', ...Array.from(new Set(publishedPosts.map((p) => p.
     catButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
         catButtons.forEach((b) => {
-          b.className = 'cat-btn px-3 py-1.5 text-xs rounded border transition-colors border-line text-ink-muted hover:border-copper/60 hover:text-ink';
+          b.className =
+            'cat-btn px-3.5 py-1.5 text-xs rounded-lg border transition-all border-line text-ink-muted hover:border-copper/60 hover:text-ink bg-bg-elevated/30';
         });
-        btn.className = 'cat-btn px-3 py-1.5 text-xs rounded border transition-colors bg-copper text-bg border-copper font-medium active-cat';
+        btn.className =
+          'cat-btn px-3.5 py-1.5 text-xs rounded-lg border transition-all bg-copper text-bg border-copper font-medium shadow-[0_2px_10px_rgba(198,132,79,0.2)] active-cat';
         currentCategory = btn.getAttribute('data-category') || 'Tümü';
         filterPosts();
       });

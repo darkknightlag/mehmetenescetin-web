@@ -2,12 +2,15 @@ backend:
   name: git-gateway
   branch: main
 
+# Görsellerin fiziksel yükleneceği ve sitede çağrılacağı klasörler
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
 collections:
+  # 1. BLOG YAZILARI
   - name: "blog"
     label: "Blog Yazıları"
+    label_singular: "Blog Yazısı"
     folder: "src/content/blog"
     create: true
     slug: "{{slug}}"
@@ -16,9 +19,35 @@ collections:
     fields:
       - { label: "Başlık", name: "title", widget: "string" }
       - { label: "Yayın Tarihi", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ" }
-      - { label: "Özet (Meta Açıklaması)", name: "description", widget: "text" }
+      - { label: "Özet / Meta Açıklama", name: "description", widget: "text" }
       - { label: "Kapak Görseli", name: "coverImage", widget: "image", required: false }
-      - { label: "Kategori", name: "category", widget: "select", options: ["Yazılım", "Yapay Zeka & Görüntü İşleme", "Otomasyon", "Oyun Geliştirme", "Genel"] }
+      - { label: "Kategori", name: "category", widget: "select", options: ["Yazılım & Mimari", "Yapay Zeka & Görüntü İşleme", "Otomasyon & Scripting", "Oyun & Eklenti Geliştirme", "Genel"] }
       - { label: "Etiketler", name: "tags", widget: "list", default: ["Yazılım"] }
+      - { label: "Öne Çıkarılsın mı?", name: "featured", widget: "boolean", default: false, required: false }
       - { label: "Taslak mı?", name: "draft", widget: "boolean", default: false }
       - { label: "İçerik", name: "body", widget: "markdown" }
+
+  # 2. PROJELER (Portfolyo)
+  - name: "projects"
+    label: "Geliştirilen Projeler"
+    label_singular: "Proje"
+    folder: "src/content/projects"
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: true
+    fields:
+      - { label: "Proje Adı", name: "title", widget: "string" }
+      - { label: "Kısa Başlık / Slogan (Tagline)", name: "tagline", widget: "string" }
+      - { label: "Açıklama", name: "description", widget: "text" }
+      - { label: "Yıl / Dönem", name: "year", widget: "string", default: "2025 →" }
+      - { label: "Durum Rozeti", name: "badge", widget: "string", default: "Aktif" }
+      - { label: "Proje Durumu", name: "status", widget: "select", options: ["Aktif", "Geliştiriliyor", "Tamamlandı"], default: "Aktif" }
+      - { label: "Kategori", name: "category", widget: "select", options: ["Web & Platform", "Yapay Zeka & Görüntü İşleme", "Otomasyon & Bot", "Oyun & Sunucu", "Mobil Uygulama"] }
+      - { label: "Canlı Proje Bağlantısı (URL)", name: "link", widget: "string", required: false }
+      - { label: "GitHub Depo Bağlantısı (URL)", name: "github", widget: "string", required: false }
+      - { label: "Kapak / Önizleme Görseli", name: "coverImage", widget: "image", required: false }
+      - { label: "Teknoloji Etiketleri", name: "tags", widget: "list", default: ["Python"] }
+      - { label: "Ana Sayfada Öne Çıkarılsın mı?", name: "featured", widget: "boolean", default: true }
+      - { label: "Sıralama Önceliği (1 en üst)", name: "order", widget: "number", default: 1, value_type: "int" }
+      - { label: "Detaylı Proje Hikayesi (Opsiyonel)", name: "body", widget: "markdown", required: false }

@@ -28,38 +28,50 @@ const postUrl = new URL(Astro.url.pathname, Astro.site).toString();
   isArticle={true}
 >
   <!-- Schema.org BlogPosting JSON-LD -->
-  <script type="application/ld+json" is:inline set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": post.data.title,
-    "description": post.data.description,
-    "url": postUrl,
-    "datePublished": post.data.date.toISOString(),
-    "dateModified": post.data.date.toISOString(),
-    "author": {
-      "@type": "Person",
-      "name": "Mehmet Enes Çetin",
-      "url": "https://mehmetenescetin.com.tr"
-    },
-    "publisher": {
-      "@type": "Person",
-      "name": "Mehmet Enes Çetin"
-    },
-    ...(post.data.coverImage && { "image": post.data.coverImage }),
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": postUrl
-    }
-  })} />
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: post.data.title,
+      description: post.data.description,
+      url: postUrl,
+      datePublished: post.data.date.toISOString(),
+      dateModified: post.data.date.toISOString(),
+      author: {
+        '@type': 'Person',
+        name: 'Mehmet Enes Çetin',
+        url: 'https://mehmetenescetin.com.tr',
+      },
+      publisher: {
+        '@type': 'Person',
+        name: 'Mehmet Enes Çetin',
+      },
+      ...(post.data.coverImage && { image: post.data.coverImage }),
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': postUrl,
+      },
+    })}
+  />
 
-  <div class="min-h-screen bg-bg text-ink">
-    <header class="border-b border-line bg-bg-elevated/40 backdrop-blur sticky top-0 z-20">
-      <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+  <!-- Okuma İlerleme Çubuğu (Scroll Progress Bar) -->
+  <div
+    id="reading-progress"
+    class="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-copper to-amber-300 w-0 z-50 transition-all duration-75"
+  >
+  </div>
+
+  <div class="min-h-screen bg-bg text-ink selection:bg-copper selection:text-bg">
+    <!-- Header -->
+    <header class="border-b border-line bg-bg-elevated/70 backdrop-blur-md sticky top-0 z-40">
+      <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
         <a
           href="/blog"
-          class="text-sm text-ink-muted hover:text-copper flex items-center gap-2 transition-colors"
+          class="text-sm text-ink-muted hover:text-copper flex items-center gap-2 transition-colors font-medium"
         >
-          ← Tüm Yazılara Dön
+          ← Tüm Blog Yazıları
         </a>
         <a href="/" class="font-serif text-lg font-semibold tracking-wide">
           E.<span class="text-copper">Çetin_</span>
@@ -67,42 +79,58 @@ const postUrl = new URL(Astro.url.pathname, Astro.site).toString();
       </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-6 py-12 lg:py-16">
-      <div class="max-w-3xl mx-auto">
-        <!-- Üst Bilgi Rozetleri -->
-        <div class="flex flex-wrap items-center gap-3 text-xs text-ink-faint mb-4">
-          <span class="px-2.5 py-1 rounded bg-copper/10 text-copper border border-copper/30 font-medium">
+    <main class="max-w-4xl mx-auto px-6 py-12 lg:py-20">
+      <article class="max-w-3xl mx-auto">
+        <!-- Kategori & Meta Bilgileri -->
+        <div class="flex flex-wrap items-center gap-3 text-xs text-ink-faint mb-6">
+          <span
+            class="px-3 py-1 rounded-full bg-copper/10 text-copper border border-copper/30 font-medium"
+          >
             {post.data.category}
           </span>
           <span>•</span>
-          <span>
-            {post.data.date.toLocaleDateString('tr-TR', {
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric',
-            })}
+          <span class="font-mono">
+            {
+              post.data.date.toLocaleDateString('tr-TR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              })
+            }
           </span>
           <span>•</span>
-          <span>{readingTime} dakika okuma süresi</span>
+          <span class="font-mono">⏱️ {readingTime} dakika okuma</span>
         </div>
 
-        <h1 class="font-serif text-3xl sm:text-5xl font-medium tracking-tight text-ink leading-[1.15]">
+        <!-- Başlık -->
+        <h1
+          class="font-serif text-3xl sm:text-5xl font-medium tracking-tight text-ink leading-[1.18]"
+        >
           {post.data.title}
         </h1>
 
-        <p class="mt-5 text-lg text-ink-muted leading-relaxed border-l-2 border-copper pl-4 italic">
+        <!-- Özet Alıntısı -->
+        <p
+          class="mt-6 text-lg text-ink-muted leading-relaxed border-l-2 border-copper pl-5 italic bg-bg-elevated/30 py-3 rounded-r-lg font-light"
+        >
           {post.data.description}
         </p>
 
-        <!-- Yazar ve Sosyal Paylaşım -->
-        <div class="my-8 pt-4 border-t border-line flex flex-wrap items-center justify-between gap-4">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-copper/20 border border-copper text-copper font-serif flex items-center justify-center font-bold text-sm">
+        <!-- Yazar ve Paylaşım Barı -->
+        <div
+          class="my-10 p-5 rounded-xl border border-line bg-bg-elevated/40 flex flex-wrap items-center justify-between gap-4"
+        >
+          <div class="flex items-center gap-3.5">
+            <div
+              class="w-11 h-11 rounded-full bg-gradient-to-br from-copper/30 to-copper/10 border border-copper/50 text-copper font-serif flex items-center justify-center font-bold text-base shadow-[0_0_15px_rgba(198,132,79,0.2)]"
+            >
               ME
             </div>
             <div>
               <div class="text-sm font-medium text-ink">Mehmet Enes Çetin</div>
-              <div class="text-xs text-ink-faint">Valtura Kurucusu &amp; Geliştirici</div>
+              <div class="text-xs text-ink-faint font-light">
+                Valtura Kurucusu &amp; Geliştirici
+              </div>
             </div>
           </div>
 
@@ -111,14 +139,14 @@ const postUrl = new URL(Astro.url.pathname, Astro.site).toString();
               href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(postUrl)}`}
               target="_blank"
               rel="noopener noreferrer"
-              class="px-3 py-1.5 border border-line rounded text-ink-muted hover:text-copper hover:border-copper transition-colors"
+              class="px-3 py-1.5 border border-line bg-bg-elevated/60 hover:bg-bg-elevated rounded text-ink-muted hover:text-copper hover:border-copper/60 transition-all font-medium"
             >
-              X (Twitter)
+              X / Twitter
             </a>
             <button
               id="copy-btn"
               type="button"
-              class="px-3 py-1.5 border border-line rounded text-ink-muted hover:text-copper hover:border-copper transition-colors"
+              class="px-3 py-1.5 border border-line bg-bg-elevated/60 hover:bg-bg-elevated rounded text-ink-muted hover:text-copper hover:border-copper/60 transition-all font-medium"
             >
               Bağlantıyı Kopyala
             </button>
@@ -128,16 +156,16 @@ const postUrl = new URL(Astro.url.pathname, Astro.site).toString();
         <!-- İçindekiler Tablosu (TOC) -->
         {
           headings.length > 0 && (
-            <div class="my-8 p-6 rounded-lg border border-line bg-bg-elevated/50">
-              <div class="text-xs font-semibold text-copper uppercase tracking-wider mb-3">
-                İçindekiler
+            <div class="my-10 p-6 rounded-xl border border-line bg-bg-elevated/40">
+              <div class="text-xs font-mono font-semibold text-copper uppercase tracking-wider mb-4 flex items-center gap-2">
+                <span>📑</span> Bu Yazının Başlıkları
               </div>
               <ul class="space-y-2 text-sm">
                 {headings.map((h) => (
-                  <li class={`${h.depth === 3 ? 'pl-4 text-xs' : 'font-medium'}`}>
+                  <li class={`${h.depth === 3 ? 'pl-5 text-xs' : 'font-medium'}`}>
                     <a
                       href={`#${h.slug}`}
-                      class="text-ink-muted hover:text-copper transition-colors"
+                      class="text-ink-muted hover:text-copper hover:underline transition-colors block"
                     >
                       {h.text}
                     </a>
@@ -149,28 +177,61 @@ const postUrl = new URL(Astro.url.pathname, Astro.site).toString();
         }
 
         <!-- Makale İçeriği (Markdown) -->
-        <article class="prose prose-invert max-w-none mt-10 leading-relaxed text-ink-muted">
+        <div class="prose prose-invert max-w-none mt-10 leading-relaxed font-light text-ink-muted">
           <Content />
-        </article>
+        </div>
 
         <!-- Etiketler -->
         {
           post.data.tags.length > 0 && (
-            <div class="mt-12 pt-6 border-t border-line flex flex-wrap items-center gap-2">
-              <span class="text-xs text-copper font-medium">Etiketler:</span>
+            <div class="mt-14 pt-8 border-t border-line flex flex-wrap items-center gap-2">
+              <span class="text-xs text-copper font-medium font-mono">Etiketler:</span>
               {post.data.tags.map((t) => (
-                <span class="text-xs px-2.5 py-1 rounded bg-bg-elevated border border-line text-ink-muted">
+                <span class="text-xs px-3 py-1 rounded-full bg-bg-elevated border border-line text-ink-muted hover:border-copper/50 transition-colors">
                   #{t}
                 </span>
               ))}
             </div>
           )
         }
-      </div>
+
+        <!-- Alt Yazar Kartı & Geri Dönüş -->
+        <div class="mt-14 p-8 rounded-xl border border-line bg-bg-elevated/30 flex flex-col sm:flex-row gap-6 items-center sm:items-start text-center sm:text-left">
+          <div
+            class="w-16 h-16 rounded-full bg-copper/20 border border-copper text-copper font-serif flex items-center justify-center font-bold text-2xl flex-shrink-0"
+          >
+            ME
+          </div>
+          <div>
+            <h3 class="font-serif text-xl font-medium text-ink">Mehmet Enes Çetin</h3>
+            <p class="mt-2 text-xs text-ink-muted leading-relaxed font-light">
+              Küçüklüğünden beri otomasyon araçları, yapay zeka, Discord botları ve sunucu mekanikleri geliştiren bağımsız bir geliştirici. Valtura'nın kurucusu.
+            </p>
+            <div class="mt-4 flex gap-4 text-xs font-mono text-copper">
+              <a href="https://github.com/darkknightlag" target="_blank" class="hover:underline">GitHub</a>
+              <a href="https://valtura.com.tr" target="_blank" class="hover:underline">Valtura</a>
+              <a href="mailto:enescetinmehmet14@gmail.com" class="hover:underline">E-Posta</a>
+            </div>
+          </div>
+        </div>
+      </article>
     </main>
   </div>
 
+  <!-- Scroll Progress ve Kopyalama Scriptleri -->
   <script is:inline>
+    // Scroll İlerleme Göstergesi
+    window.addEventListener('scroll', () => {
+      const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      const progressBar = document.getElementById('reading-progress');
+      if (progressBar) {
+        progressBar.style.width = scrolled + '%';
+      }
+    });
+
+    // Bağlantı Kopyalama Butonu
     const copyBtn = document.getElementById('copy-btn');
     if (copyBtn) {
       copyBtn.addEventListener('click', () => {
