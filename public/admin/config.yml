@@ -1,0 +1,24 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "blog"
+    label: "Blog Yazıları"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: true
+    fields:
+      - { label: "Başlık", name: "title", widget: "string" }
+      - { label: "Yayın Tarihi", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ" }
+      - { label: "Özet (Meta Açıklaması)", name: "description", widget: "text" }
+      - { label: "Kapak Görseli", name: "coverImage", widget: "image", required: false }
+      - { label: "Kategori", name: "category", widget: "select", options: ["Yazılım", "Yapay Zeka & Görüntü İşleme", "Otomasyon", "Oyun Geliştirme", "Genel"] }
+      - { label: "Etiketler", name: "tags", widget: "list", default: ["Yazılım"] }
+      - { label: "Taslak mı?", name: "draft", widget: "boolean", default: false }
+      - { label: "İçerik", name: "body", widget: "markdown" }

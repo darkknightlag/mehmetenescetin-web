@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0b0d12;
+  --bg-elevated: #12151c;
+  --ink: #ece9e3;
+  --ink-muted: #9498a2;
+  --ink-faint: #5c6068;
+  --copper: #c6844f;
+  --slate: #5c7285;
+  --line: #23262f;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg);
+  color: var(--ink);
+}
+
+::selection {
+  background-color: var(--copper);
+  color: #0b0d12;
+}
+
+:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 3px;
+}

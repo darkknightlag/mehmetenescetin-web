@@ -1,0 +1,443 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const publishedPosts = posts
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const stack = [
+  { name: 'Python', icon: '🐍', desc: 'Otomasyon & Scripting' },
+  { name: 'Java', icon: '☕', desc: 'Bukkit / Spigot & Android' },
+  { name: 'JavaScript / TS', icon: '⚡', desc: 'Modern Web Arayüzleri' },
+  { name: 'MySQL', icon: '🗄️', desc: 'Veritabanı Mimarisi' },
+  { name: 'Discord API', icon: '🤖', desc: 'Çok Fonksiyonlu Botlar' },
+  { name: 'Computer Vision', icon: '👁️', desc: 'Tarayıcıda Jest & Yüz Takibi' },
+  { name: 'Bukkit / Spigot', icon: '⚙️', desc: 'Oyun Mekaniği Eklentileri' },
+  { name: 'Git & GitHub', icon: '🐙', desc: 'Versiyon Kontrolü' },
+];
+
+const projects = [
+  {
+    title: 'Valtura',
+    tagline: 'Geliştirici Birliği',
+    year: '2025 →',
+    badge: 'Kurucu',
+    desc: '2025 yılında kurduğum geliştirici birliğim. Otomasyon araçlarından Discord botlarına, web arayüzlerinden Minecraft sistemlerine kadar çok yönlü projeler üretiyoruz.',
+    link: 'https://valtura.com.tr/',
+    tags: ['Kurucu', 'Topluluk', 'Full-Stack'],
+  },
+  {
+    title: 'ENSIGHT',
+    tagline: 'Yapay Zeka & Görüntü İşleme',
+    year: '2024',
+    badge: 'Yapay Zeka',
+    desc: 'Tarayıcı üzerinde gerçek zamanlı el ve yüz izleme sistemi. Parmak hareketleri ve jestlerle temassız imleç kontrolü, havada çizim ve fotoğraf yakalama. Sıfır sunucu ile tamamen istemci cihazında çalışır.',
+    link: 'https://ensightpro.netlify.app/',
+    tags: ['Computer Vision', 'Real-time', 'Client-Side AI'],
+  },
+  {
+    title: 'Discord Bot Sistemi',
+    tagline: 'Topluluk Yönetimi',
+    year: '2023 - 2024',
+    badge: 'Otomasyon',
+    desc: 'Python ile yazılmış çok fonksiyonlu Discord botları. Moderasyon, eğlence ve otomatik sunucu yönetim yetenekleri içeren, MySQL veritabanı entegrasyonlu bot ekosistemi.',
+    link: 'https://github.com/darkknightlag',
+    tags: ['Python', 'Discord API', 'MySQL'],
+  },
+  {
+    title: 'Minecraft Plugin Geliştirme',
+    tagline: 'Oyun Sunucu Sistemleri',
+    year: '2023',
+    badge: 'Eklenti',
+    desc: 'Java ile Bukkit/Spigot API kullanarak yazılan sunucu eklentileri. Özel oyun mekanikleri ve yüksek performanslı sunucu yönetim sistemleri.',
+    link: 'https://github.com/darkknightlag',
+    tags: ['Java', 'Bukkit/Spigot', 'Game Dev'],
+  },
+  {
+    title: 'Android Uygulamaları',
+    tagline: 'Google Play Store',
+    year: 'Aktif',
+    badge: 'Mobil',
+    desc: 'Google Play Store üzerinde yayınlanan kullanıcı odaklı mobil uygulamalar. Modern arayüzler ve pratik çözümler.',
+    link: 'https://play.google.com/store/apps/developer?id=MehmetEnes',
+    tags: ['Android', 'Java', 'Mobile-First'],
+  },
+  {
+    title: 'Python Otomasyon Araçları',
+    tagline: 'Verimlilik & CLI',
+    year: 'Sürekli',
+    badge: 'Araç',
+    desc: 'Tekrarlayan görevleri otomatikleştiren araçlar: web scraping, dosya yönetimi ve sistem otomasyon scriptleri.',
+    link: 'https://github.com/darkknightlag',
+    tags: ['Python', 'Web Scraping', 'CLI Tools'],
+  },
+];
+---
+
+<BaseLayout>
+  <div class="grid grid-cols-1 lg:grid-cols-[380px_1fr] min-h-screen">
+    <!-- SOL SABİT PANEL (Masaüstü) -->
+    <aside
+      class="lg:sticky lg:top-0 lg:h-screen p-8 lg:p-14 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-line bg-bg z-10"
+    >
+      <div>
+        <div class="flex items-center justify-between">
+          <a href="/" class="font-serif text-2xl font-semibold tracking-wide">
+            E.<span class="text-copper">Çetin_</span>
+          </a>
+          <span
+            class="flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-full border border-copper/30 bg-copper/10 text-copper font-medium"
+          >
+            <span class="w-1.5 h-1.5 rounded-full bg-copper animate-pulse"></span>
+            Valtura Kurucusu
+          </span>
+        </div>
+
+        <div class="mt-12">
+          <h1 class="font-serif text-3xl font-medium leading-tight text-ink">
+            Mehmet Enes Çetin
+          </h1>
+          <p class="mt-2 text-sm text-ink-muted leading-relaxed">
+            Python, full-stack web geliştirme ve yapay zeka otomasyonları. Fikirleri çalışan ürünlere dönüştürüyorum.
+          </p>
+        </div>
+
+        <nav class="mt-10 flex flex-col gap-1 text-sm">
+          <a
+            href="#about"
+            class="py-2.5 flex justify-between items-center text-ink-muted hover:text-ink hover:translate-x-1 border-t border-line transition-all"
+          >
+            <span>01. Kim miyim?</span>
+            <span class="text-xs text-ink-faint">Hakkımda</span>
+          </a>
+          <a
+            href="#stack"
+            class="py-2.5 flex justify-between items-center text-ink-muted hover:text-ink hover:translate-x-1 border-t border-line transition-all"
+          >
+            <span>02. Kullandığım Araçlar</span>
+            <span class="text-xs text-ink-faint">Yetenekler</span>
+          </a>
+          <a
+            href="#projects"
+            class="py-2.5 flex justify-between items-center text-ink-muted hover:text-ink hover:translate-x-1 border-t border-line transition-all"
+          >
+            <span>03. Geliştirdiklerim</span>
+            <span class="text-xs text-ink-faint">Portfolyo</span>
+          </a>
+          <a
+            href="#blog"
+            class="py-2.5 flex justify-between items-center text-ink-muted hover:text-ink hover:translate-x-1 border-t border-line transition-all"
+          >
+            <span>04. Yazılar</span>
+            <span class="text-xs text-ink-faint">Blog</span>
+          </a>
+          <a
+            href="#connect"
+            class="py-2.5 flex justify-between items-center text-ink-muted hover:text-ink hover:translate-x-1 border-t border-b border-line transition-all"
+          >
+            <span>05. Bağlantıya Geç</span>
+            <span class="text-xs text-ink-faint">İletişim</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="mt-12 pt-6 border-t border-line flex flex-col gap-4">
+        <div class="flex gap-4 text-ink-muted text-sm">
+          <a
+            href="https://github.com/darkknightlag"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-copper transition-colors">GitHub</a
+          >
+          <a
+            href="https://www.instagram.com/mehmet.enes.cetin"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-copper transition-colors">Instagram</a
+          >
+          <a
+            href="https://play.google.com/store/apps/developer?id=MehmetEnes"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-copper transition-colors">Play Store</a
+          >
+        </div>
+        <p class="text-xs text-ink-faint">
+          © {new Date().getFullYear()} Mehmet Enes Çetin. Tüm hakları saklıdır.
+        </p>
+      </div>
+    </aside>
+
+    <!-- SAĞ AKIŞ PANELİ -->
+    <main class="divide-y divide-line">
+      <!-- HERO BÖLÜMÜ -->
+      <section class="p-8 lg:p-16 max-w-4xl pt-16 lg:pt-24">
+        <p class="text-sm font-medium text-slate uppercase tracking-wider mb-4">
+          Geliştirici · Valtura Kurucusu
+        </p>
+        <h2 class="font-serif text-4xl lg:text-7xl font-medium tracking-tight leading-[1.08] text-ink">
+          Merhaba,<br />ben Enes.
+        </h2>
+        <p class="mt-6 text-lg text-ink-muted leading-relaxed max-w-2xl">
+          Otomasyon araçlarından Discord botlarına, modern web arayüzlerinden Minecraft sunucu sistemlerine kadar geniş bir yelpazede üretiyorum.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a
+            href="#projects"
+            class="px-6 py-3 bg-copper hover:bg-copper-light text-bg font-semibold text-sm rounded transition-colors inline-flex items-center gap-2"
+          >
+            Projelerimi Gör →
+          </a>
+          <a
+            href="/blog"
+            class="px-6 py-3 border border-line hover:border-copper text-ink hover:text-copper font-medium text-sm rounded transition-all inline-flex items-center gap-2"
+          >
+            Blog Yazıları ↗
+          </a>
+          <a
+            href="#connect"
+            class="px-6 py-3 border border-line hover:border-copper text-ink hover:text-copper font-medium text-sm rounded transition-all"
+          >
+            İletişime Geç
+          </a>
+        </div>
+
+        <div class="mt-16 pt-8 border-t border-line grid grid-cols-3 gap-6">
+          <div>
+            <b class="font-serif text-3xl font-medium text-ink block">3+</b>
+            <span class="text-xs text-ink-faint mt-1 block">Yıllık Deneyim</span>
+          </div>
+          <div>
+            <b class="font-serif text-3xl font-medium text-ink block">6+</b>
+            <span class="text-xs text-ink-faint mt-1 block">Aktif Proje Alanı</span>
+          </div>
+          <div>
+            <b class="font-serif text-3xl font-medium text-copper block">Valtura</b>
+            <span class="text-xs text-ink-faint mt-1 block">Geliştirici Birliği</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 01. KİM MİYİM? -->
+      <section id="about" class="p-8 lg:p-16 max-w-4xl scroll-mt-6">
+        <div class="flex items-baseline gap-3 mb-8">
+          <span class="font-serif italic text-copper text-lg">01</span>
+          <h2 class="font-serif text-3xl text-ink font-medium">Kim miyim?</h2>
+        </div>
+        <div class="space-y-4 text-ink-muted text-base leading-relaxed">
+          <p>
+            Küçüklüğümden beri bilgisayarlara olan merakım zamanla <strong class="text-ink"
+              >özgün projelere</strong
+            > dönüştü. Şu an kendi çatım olan <strong class="text-copper">Valtura</strong> altında otomasyon araçlarından Discord botlarına, modern web arayüzlerinden Minecraft plugin geliştirmeye kadar geniş bir yelpazede çalışıyorum.
+          </p>
+          <p>
+            Her gün yeni bir şeyler öğrenmek ve bunu kullanışlı bir ürüne dönüştürmek ilkem. Farklı teknolojileri bir arada kullanarak uçtan uca projeler üretiyorum.
+          </p>
+          <p>
+            Backend'den frontend'e, mobil uygulamalardan oyun sunucu sistemlerine kadar <strong class="text-ink"
+              >tam yığın</strong
+            > düşünen bir geliştiriciyim.
+          </p>
+        </div>
+      </section>
+
+      <!-- 02. KULLANDIĞIM ARAÇLAR -->
+      <section id="stack" class="p-8 lg:p-16 max-w-4xl scroll-mt-6">
+        <div class="flex items-baseline gap-3 mb-8">
+          <span class="font-serif italic text-copper text-lg">02</span>
+          <h2 class="font-serif text-3xl text-ink font-medium">Kullandığım Araçlar</h2>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {
+            stack.map((item) => (
+              <div class="p-4 rounded border border-line bg-bg-elevated/40 hover:border-copper/60 transition-colors group">
+                <span class="text-2xl mb-2 block">{item.icon}</span>
+                <div class="font-medium text-ink group-hover:text-copper transition-colors">
+                  {item.name}
+                </div>
+                <div class="text-xs text-ink-faint mt-0.5">{item.desc}</div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- 03. GELİŞTİRDİKLERİM -->
+      <section id="projects" class="p-8 lg:p-16 max-w-4xl scroll-mt-6">
+        <div class="flex items-baseline gap-3 mb-8">
+          <span class="font-serif italic text-copper text-lg">03</span>
+          <h2 class="font-serif text-3xl text-ink font-medium">Geliştirdiklerim</h2>
+        </div>
+        <div class="grid grid-cols-1 gap-6">
+          {
+            projects.map((proj) => (
+              <a
+                href={proj.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="p-6 rounded border border-line bg-bg-elevated/30 hover:border-copper hover:bg-bg-elevated/80 transition-all group flex flex-col justify-between"
+              >
+                <div>
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <span class="text-xs text-copper uppercase font-medium tracking-wider">
+                        {proj.tagline}
+                      </span>
+                      <h3 class="font-serif text-2xl text-ink font-medium group-hover:text-copper transition-colors flex items-center gap-2 mt-0.5">
+                        {proj.title}
+                        <span class="text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                          ↗
+                        </span>
+                      </h3>
+                    </div>
+                    <span class="text-xs text-ink-faint px-2 py-1 border border-line rounded">
+                      {proj.year}
+                    </span>
+                  </div>
+                  <p class="mt-3 text-sm text-ink-muted leading-relaxed">
+                    {proj.desc}
+                  </p>
+                </div>
+                <div class="mt-5 flex flex-wrap gap-2">
+                  {proj.tags.map((t) => (
+                    <span class="text-xs px-2.5 py-0.5 bg-line/50 text-ink-muted rounded">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- 04. SON YAZILAR -->
+      <section id="blog" class="p-8 lg:p-16 max-w-4xl scroll-mt-6">
+        <div class="flex justify-between items-baseline mb-8">
+          <div class="flex items-baseline gap-3">
+            <span class="font-serif italic text-copper text-lg">04</span>
+            <h2 class="font-serif text-3xl text-ink font-medium">Son Yazılar</h2>
+          </div>
+          <a href="/blog" class="text-sm text-copper hover:underline flex items-center gap-1">
+            Tümünü Gör →
+          </a>
+        </div>
+
+        {
+          publishedPosts.length === 0 ? (
+            <div class="p-8 border border-line rounded text-center text-ink-muted text-sm">
+              Henüz yayınlanmış bir yazı bulunmuyor. /admin üzerinden ilk yazınızı ekleyebilirsiniz.
+            </div>
+          ) : (
+            <div class="space-y-4">
+              {publishedPosts.map((post) => (
+                <a
+                  href={`/blog/${post.id}/`}
+                  class="p-6 rounded border border-line bg-bg-elevated/20 hover:border-copper/70 hover:bg-bg-elevated/60 transition-all block group"
+                >
+                  <div class="flex items-center gap-3 text-xs text-ink-faint mb-2">
+                    <span class="text-copper">{post.data.category}</span>
+                    <span>•</span>
+                    <span>
+                      {post.data.date.toLocaleDateString('tr-TR', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                      })}
+                    </span>
+                  </div>
+                  <h3 class="font-serif text-xl font-medium text-ink group-hover:text-copper transition-colors">
+                    {post.data.title}
+                  </h3>
+                  <p class="mt-2 text-sm text-ink-muted line-clamp-2">
+                    {post.data.description}
+                  </p>
+                </a>
+              ))}
+            </div>
+          )
+        }
+      </section>
+
+      <!-- 05. BAĞLANTIYA GEÇ -->
+      <section id="connect" class="p-8 lg:p-16 max-w-4xl scroll-mt-6">
+        <div class="flex items-baseline gap-3 mb-8">
+          <span class="font-serif italic text-copper text-lg">05</span>
+          <h2 class="font-serif text-3xl text-ink font-medium">Bağlantıya Geç</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <a
+            href="https://github.com/darkknightlag"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-5 border border-line rounded hover:border-copper transition-colors flex items-center justify-between"
+          >
+            <div>
+              <span class="text-xs text-ink-faint block uppercase font-mono">GitHub</span>
+              <span class="text-ink font-medium">darkknightlag</span>
+            </div>
+            <span class="text-ink-muted">🐙</span>
+          </a>
+          <a
+            href="https://www.instagram.com/mehmet.enes.cetin"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-5 border border-line rounded hover:border-copper transition-colors flex items-center justify-between"
+          >
+            <div>
+              <span class="text-xs text-ink-faint block uppercase font-mono">Instagram</span>
+              <span class="text-ink font-medium">mehmet.enes.cetin</span>
+            </div>
+            <span class="text-ink-muted">📸</span>
+          </a>
+          <a
+            href="https://play.google.com/store/apps/developer?id=MehmetEnes"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-5 border border-line rounded hover:border-copper transition-colors flex items-center justify-between"
+          >
+            <div>
+              <span class="text-xs text-ink-faint block uppercase font-mono">Google Play</span>
+              <span class="text-ink font-medium">MehmetEnes</span>
+            </div>
+            <span class="text-ink-muted">📱</span>
+          </a>
+          <a
+            href="mailto:enescetinmehmet14@gmail.com"
+            class="p-5 border border-line rounded hover:border-copper transition-colors flex items-center justify-between"
+          >
+            <div>
+              <span class="text-xs text-ink-faint block uppercase font-mono">E-Posta</span>
+              <span class="text-ink font-medium text-sm truncate"
+                >enescetinmehmet14@gmail.com</span
+              >
+            </div>
+            <span class="text-ink-muted">✉️</span>
+          </a>
+        </div>
+
+        <div class="mt-8 p-8 border border-line rounded bg-bg-elevated/30">
+          <p class="text-sm text-ink-muted">
+            Bir proje fikriniz mi var, iş birliği mi yapmak istiyorsunuz yoksa sadece merhaba mı demek istiyorsunuz? Her zaman açığım.
+          </p>
+          <a
+            href="mailto:enescetinmehmet14@gmail.com"
+            class="mt-4 inline-block font-mono text-copper hover:underline text-sm"
+          >
+            enescetinmehmet14@gmail.com →
+          </a>
+        </div>
+      </section>
+
+      <footer
+        class="p-8 lg:p-12 text-xs text-ink-faint flex flex-col sm:flex-row justify-between items-center gap-4"
+      >
+        <span>"Her satır kod, daha iyi bir yarın için."</span>
+        <span>E.Çetin_ • 2026</span>
+      </footer>
+    </main>
+  </div>
+</BaseLayout>
